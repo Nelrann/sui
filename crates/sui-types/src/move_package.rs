@@ -188,6 +188,7 @@ impl MovePackage {
             .collect();
         // NB: sorting so the order of the modules and the order of the dependencies does not matter.
         bytes.sort();
+        println!("{:?}", bytes);
 
         let mut digest = Sha3_256::default();
         for b in bytes {

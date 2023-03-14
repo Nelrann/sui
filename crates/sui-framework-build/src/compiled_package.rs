@@ -49,6 +49,7 @@ use sui_verifier::verifier as sui_bytecode_verifier;
 use crate::{MOVE_STDLIB_PACKAGE_NAME, SUI_PACKAGE_NAME};
 
 /// Wrapper around the core Move `CompiledPackage` with some Sui-specific traits and info
+#[derive(Debug)]
 pub struct CompiledPackage {
     pub package: MoveCompiledPackage,
     /// Path to the Move package (i.e., where the Move.toml file is)

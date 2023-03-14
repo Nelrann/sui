@@ -373,13 +373,13 @@ where
     pub fn upgrade_package<'p>(
         &mut self,
         previous_package: &MovePackage,
-        new_package_id: ObjectID,
         new_modules: Vec<move_binary_format::CompiledModule>,
         dependencies: impl IntoIterator<Item = &'p MovePackage>,
     ) -> Result<ObjectID, ExecutionError> {
+        let new_package_object_id = self.tx_context.fresh_id();
         let object = Object::new_upgraded_package(
             previous_package,
-            new_package_id,
+            new_package_object_id,
             new_modules,
             self.tx_context.digest(),
             self.protocol_config.max_move_package_size(),
