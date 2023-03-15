@@ -32,7 +32,7 @@ use sui_types::messages::{
 use test_utils::network::TestClusterBuilder;
 
 use crate::state::extract_balance_changes_from_ops;
-use crate::types::{ConstructionMetadata, TransactionMetadata};
+use crate::types::ConstructionMetadata;
 
 #[tokio::test]
 async fn test_transfer_sui() {
@@ -519,17 +519,14 @@ async fn test_delegation_parsing() -> Result<(), anyhow::Error> {
 
     let ops: Operations = data.clone().try_into()?;
     let metadata = ConstructionMetadata {
-        tx_metadata: TransactionMetadata::Delegation {
-            coins: vec![coin1, coin2],
-        },
         sender,
-        gas: vec![gas],
+        coins: vec![gas],
+        objects: vec![],
+        total_coin_value: 0,
         gas_price: client.read_api().get_reference_gas_price().await?,
         budget: 10000,
     };
-    let parsed_data = ops
-        .into_internal(Some(metadata.tx_metadata.clone().into()))?
-        .try_into_data(metadata)?;
+    let parsed_data = ops.into_internal()?.try_into_data(metadata)?;
     assert_eq!(data, parsed_data);
 
     Ok(())
