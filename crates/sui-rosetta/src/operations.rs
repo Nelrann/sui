@@ -39,7 +39,7 @@ use crate::Error;
 #[path = "unit_tests/operations_tests.rs"]
 mod operations_tests;
 
-#[derive(Deserialize, Serialize, Clone, Debug)]
+#[derive(Deserialize, Serialize, Clone, Debug, PartialEq)]
 pub struct Operations(Vec<Operation>);
 
 impl FromIterator<Operation> for Operations {
@@ -464,7 +464,13 @@ impl Operations {
             .into_iter()
             .filter(|(_, amount)| *amount != 0)
             .map(move |(addr, amount)| Operation::balance_change(status, addr, amount));
-        let gas = vec![Operation::gas(gas_owner, gas_used)];
+
+        let gas = if gas_used > 0 {
+            vec![Operation::gas(gas_owner, gas_used)]
+        } else {
+            // Gas can be 0 for system tx
+            vec![]
+        };
         balance_change.chain(gas)
     }
 }
