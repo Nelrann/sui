@@ -465,7 +465,7 @@ impl Operations {
             .filter(|(_, amount)| *amount != 0)
             .map(move |(addr, amount)| Operation::balance_change(status, addr, amount));
 
-        let gas = if gas_used > 0 {
+        let gas = if gas_used == 0 {
             vec![Operation::gas(gas_owner, gas_used)]
         } else {
             // Gas can be 0 for system tx
