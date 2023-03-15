@@ -54,9 +54,9 @@ use tracing::{debug, info, warn};
 #[path = "unit_tests/consensus_tests.rs"]
 pub mod consensus_tests;
 
-// Assuming 2000 txn tps * 10 sec consensus latency = 20000 inflight consensus txns.
-// Leaving a bit more headroom to cap the max inflight consensus txns to 40000.
-pub const MAX_PENDING_CONSENSUS_TRANSACTIONS: u64 = 40000;
+// Assuming 4000 txn tps * 15 sec consensus latency = 60000 inflight consensus txns.
+// Leaving a bit more headroom to cap the max inflight consensus txns to 120000.
+pub const MAX_PENDING_CONSENSUS_TRANSACTIONS: u64 = 120000;
 
 // Assuming 100 nodes cluster
 const MAX_PENDING_LOCAL_SUBMISSIONS: usize = MAX_PENDING_CONSENSUS_TRANSACTIONS as usize;
